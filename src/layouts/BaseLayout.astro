@@ -1,0 +1,60 @@
+---
+import '@/styles/global.css';
+
+interface Props {
+	title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="en" data-theme="neo-brutal">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title ?? "Hello, world!"}</title>
+
+		<script is:inline>
+			(function () {
+				const theme = localStorage.getItem('nb-theme');
+				if (['neo-brutal', 'neo-brutal-dark'].includes(theme)) {
+					document.documentElement.setAttribute('data-theme', theme);
+				} else if (window.matchMedia) {
+					if (
+						window.matchMedia('(prefers-color-scheme: dark)')
+							.matches
+					) {
+						document.documentElement.setAttribute(
+							'data-theme',
+							'neo-brutal-dark',
+						);
+					} else {
+						document.documentElement.setAttribute(
+							'data-theme',
+							'neo-brutal',
+						);
+					}
+				} else {
+					document.documentElement.setAttribute(
+						'data-theme',
+						'neo-brutal',
+					);
+				}
+			})();
+
+			window.toggleTheme = function () {
+				const currentTheme =
+					document.documentElement.getAttribute('data-theme');
+				const newTheme =
+					currentTheme === 'neo-brutal'
+						? 'neo-brutal-dark'
+						: 'neo-brutal';
+				document.documentElement.setAttribute('data-theme', newTheme);
+				localStorage.setItem('nb-theme', newTheme);
+			};
+		</script>
+	</head>
+	<body class="bg-nb-base-100">
+		<slot />
+	</body>
+</html>

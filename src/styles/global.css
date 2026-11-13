@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Honk:MORF@15&display=swap');
+
+@import 'tailwindcss';
+@import '@neo-brutal-ui/theme-neo-brutal/css';
+@plugin '@iconify/tailwind4';
+
+@theme inline {
+	--color-nb-base-100: var(--nb-base-100);
+	--color-nb-base-200: var(--nb-base-200);
+	--color-nb-base-300: var(--nb-base-300);
+	--color-nb-base-content: var(--nb-base-content);
+	--color-nb-primary: var(--nb-primary);
+
+	--font-honk: 'Honk', sans-serif;
+	--font-honk--font-variation-settings: 'MORF' 15, 'SHLN' 50;
+}
+
+@property --typewriter-progress {
+	syntax: '<number>';
+	initial-value: 1;
+	inherits: false;
+}
+
+@keyframes typewriter-cycle {
+	from {
+		--typewriter-progress: 0;
+	}
+
+	to {
+		--typewriter-progress: 1;
+	}
+}
+
+@keyframes typewriter-blink {
+	50% {
+		border-color: transparent;
+	}
+}
+
+@utility typewriter {
+	@apply inline-grid font-mono whitespace-nowrap;
+
+	--typewriter-type-ms: 2000;
+	--typewriter-pause-ms: 1000;
+	--typewriter-delete-ms: 2000;
+	--typewriter-slot-ms: calc(
+		var(--typewriter-type-ms) + var(--typewriter-pause-ms) +
+			var(--typewriter-delete-ms)
+	);
+
+	& > span {
+		display: none;
+	}
+
+	/* Static fallback also applies when reduced motion is requested. */
+	& > span:first-child {
+		display: block;
+	}
+
+	@supports (animation-delay: calc(sibling-index() * 1ms)) and
+		(animation-duration: calc(sibling-count() * 1ms)) {
+		@media (prefers-reduced-motion: no-preference) {
+			& > span {
+				--typewriter-total-ms: calc(
+					var(--typewriter-slot-ms) * sibling-count()
+				);
+				--typewriter-elapsed-ms: calc(
+					var(--typewriter-progress) * var(--typewriter-total-ms)
+				);
+				--typewriter-reveal: clamp(
+					0,
+					min(
+						var(--typewriter-elapsed-ms) /
+							max(1, var(--typewriter-type-ms)),
+						(
+								var(--typewriter-slot-ms) -
+									var(--typewriter-elapsed-ms)
+							) /
+							max(1, var(--typewriter-delete-ms))
+					),
+					1
+				);
+
+				display: block;
+				grid-area: 1 / 1;
+				justify-self: start;
+				/* Override the theme's border-box reset in its higher-priority layer. */
+				box-sizing: content-box !important;
+				padding-inline-end: 0.15em;
+				border-right: 2px solid currentColor;
+				width: calc(
+					round(
+							nearest,
+							calc(
+								var(--typewriter-reveal) *
+									var(--typewriter-chars)
+							),
+							1
+						) *
+						1ch
+				);
+				/* Hide the cursor while another phrase owns the active slot. */
+				opacity: clamp(
+					0,
+					var(--typewriter-slot-ms) - var(--typewriter-elapsed-ms),
+					1
+				);
+
+				animation:
+					typewriter-cycle calc(var(--typewriter-total-ms) * 1ms)
+						linear
+						calc(
+							(sibling-index() - 1) * var(--typewriter-slot-ms) *
+								1ms
+						)
+						infinite,
+					typewriter-blink 700ms step-end infinite;
+
+				& > span {
+					display: block;
+					overflow: hidden;
+				}
+			}
+		}
+	}
+}
+
+@utility typewriter-width-* {
+	--typewriter-chars: --value(integer);
+}
+
+@utility typewriter-pause-* {
+	--typewriter-pause-ms: --value(integer);
+}
+
+@utility typewriter-type-* {
+	--typewriter-type-ms: --value(integer);
+}
+
+@utility typewriter-delete-* {
+	--typewriter-delete-ms: --value(integer);
+}
+
+/**/
+/* @font-face { */
+/* 	font-family: "Honk"; */
+/* 	font-optical-sizing: auto; */
+/* 	font-weight: 400; */
+/* 	font-style: normal; */
+/* 	font-variation-settings: "MORF" 15, "SHLN" 50; */
+/* 	src: url("https://fonts.gstatic.com/s/honk/v1/0nkuM8g5k4r6J3x7e2Y.woff2") */
+/* 		format("woff2"); */
+/* } */

@@ -1,0 +1,15 @@
+---
+interface Props {
+	phrases: string[];
+}
+
+const { phrases } = Astro.props as Props;
+---
+
+<span class="typewriter typewriter-type-2000 typewriter-pause-5000 typewriter-delete-2000">
+	{phrases.map((phrase) => (
+		<span style={`--typewriter-chars: ${phrase.length};`}>
+			<span>{phrase}</span>
+		</span>
+	))}
+</span>

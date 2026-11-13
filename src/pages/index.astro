@@ -1,0 +1,33 @@
+---
+import WithNavbar from '@/layouts/WithNavbar.astro';
+import Typewriter from '@/components/Typewriter.astro';
+---
+
+<WithNavbar>
+	<div class="nb-hero nb-hero-lg nb-hero-center nb-hero-primary">
+		<div class="nb-hero-content">
+			<p class="nb-hero-subtitle">
+				<Typewriter phrases={['JS Developer', 'Rust developer']} />
+			</p>
+			<h1 class="nb-hero-title font-honk">IcyTv</h1>
+			<p class="nb-hero-description">Here for your development needs</p>
+			<div class="nb-hero-actions">
+				<a class="nb-btn nb-btn-accent" href="/projects">
+					Projects
+				</a>
+				<a
+					class="nb-btn nb-btn-ghost"
+					rel="noopener"
+					target="_blank"
+					href="https://github.com/IcyTv"
+				>
+					<span
+						aria-hidden="true"
+						class="icon-[simple-icons--github]"
+					></span>
+					GitHub
+				</a>
+			</div>
+		</div>
+	</div>
+</WithNavbar>
