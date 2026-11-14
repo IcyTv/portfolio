@@ -1,13 +1,24 @@
 ---
 import WithNavbar from '@/layouts/WithNavbar.astro';
 import Typewriter from '@/components/Typewriter.astro';
+import PinnedProject from '@/components/PinnedProject.astro';
+import { getProjects } from '@/data/projects';
+
+const projects = await getProjects();
 ---
 
 <WithNavbar>
-	<div class="nb-hero nb-hero-lg nb-hero-center nb-hero-primary">
+	<div class="nb-hero nb-hero-lg nb-hero-center nb-hero-primary m-2">
 		<div class="nb-hero-content">
 			<p class="nb-hero-subtitle">
-				<Typewriter phrases={['JS Developer', 'Rust developer']} />
+				<Typewriter
+					phrases={[
+						'Frontend Developer',
+						'Backend Developer',
+						'Rust Developer',
+						'Devops Engineer',
+					]}
+				/>
 			</p>
 			<h1 class="nb-hero-title font-honk">IcyTv</h1>
 			<p class="nb-hero-description">Here for your development needs</p>
@@ -28,6 +39,15 @@ import Typewriter from '@/components/Typewriter.astro';
 					GitHub
 				</a>
 			</div>
+		</div>
+	</div>
+
+	<div class="m-6">
+		<h2>Featured Work</h2>
+		<div class="">
+			{projects.map((project) => (
+				<PinnedProject {...project} />
+			))}
 		</div>
 	</div>
 </WithNavbar>

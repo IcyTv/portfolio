@@ -1,0 +1,15 @@
+---
+import type { Project } from '@/data/projects.ts';
+
+interface Props extends Project {}
+
+const { name, description } = Astro.props as Props;
+---
+
+<div class="nb-card">
+	<div class="nb-card-media"><!-- TODO: Add image support --></div>
+	<header class="nb-card-header">
+		<h2 class="nb-card-title">{name}</h2>
+		<p class="text-sm font-normal">{description ?? 'Come back later...'}</p>
+	</header>
+</div>
