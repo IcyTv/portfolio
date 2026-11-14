@@ -7,6 +7,11 @@ export type Project = {
 	createdAt: string;
 	forkCount: number;
 	stargazerCount: number;
+	languages: {
+		nodes: {
+			name: string;
+		}[];
+	};
 };
 
 export async function getProjects(): Promise<Project[]> {
@@ -29,6 +34,13 @@ export async function getProjects(): Promise<Project[]> {
 							createdAt
 							forkCount
 							stargazerCount
+							languages(first: 3) {
+								nodes {
+									... on Language {
+										name
+									}
+								}
+							}
 						}
 					}
 				}

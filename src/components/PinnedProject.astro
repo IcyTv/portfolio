@@ -3,13 +3,38 @@ import type { Project } from '@/data/projects.ts';
 
 interface Props extends Project {}
 
-const { name, description } = Astro.props as Props;
+const { name, description, languages } = Astro.props as Props;
 ---
 
-<div class="nb-card">
-	<div class="nb-card-media"><!-- TODO: Add image support --></div>
-	<header class="nb-card-header">
-		<h2 class="nb-card-title">{name}</h2>
-		<p class="text-sm font-normal">{description ?? 'Come back later...'}</p>
-	</header>
+<div class="nb-card grid! grid-cols-2! m-8">
+	<div class="nb-card-media border-r-2 border-r-black flex-1">
+		<img
+			src="/public/img/default-project-preview.png"
+			alt="Project image"
+		/>
+	</div>
+	<div>
+		<header class="nb-card-header border-none!">
+			<h2 class="nb-card-title">{name}</h2>
+		</header>
+		<div class="p-6">
+			<p class="text-sm font-normal">
+				{description ?? 'Come back later...'}
+			</p>
+
+			<div class="flex gap-2 flex-row">
+				{languages &&
+					languages.nodes.map((lang) => (
+						<span class="nb-badge">{lang.name}</span>
+					))}
+			</div>
+
+			<div class="flex flex-row justify-between">
+				<span class="items-center flex text-center">
+					<span class="icon-[withicons-brutal--star]" />
+					Stars
+				</span>
+			</div>
+		</div>
+	</div>
 </div>
